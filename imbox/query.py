@@ -7,12 +7,10 @@ IMAP_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
 
 
 def format_date(date):
-
     return "%s-%s-%s" % (date.day, IMAP_MONTHS[date.month - 1], date.year)
 
 
 def build_search_query(**kwargs):
-
     # Parse keyword arguments
     unread = kwargs.get('unread', False)
     sent_from = kwargs.get('sent_from', False)
@@ -23,25 +21,17 @@ def build_search_query(**kwargs):
     date__lt = kwargs.get('date__lt', False)
     if type(date__lt) is datetime.date:
         date__lt = format_date(date__lt)
-
     query = []
-
     if unread:
         query.append("(UNSEEN)")
-
     if sent_from:
         query.append('(FROM "%s")' % sent_from)
-
     if sent_to:
         query.append('(TO "%s")' % sent_to)
-
     if date__gt:
         query.append('(SINCE "%s")' % date__gt)
-
     if date__lt:
         query.append('(BEFORE "%s")' % date__lt)
-
     if query:
         return " ".join(query)
-
     return "(ALL)"
